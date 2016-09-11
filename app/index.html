@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Angular with Webpack</title>
+	<link rel="stylesheet" type="text/css" href="assets/styles/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/styles/main.css">
+	<style>
+		.active {
+			color: red;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+
+	<a ui-sref="add" ui-sref-active="active">Add</a>
+	<a ui-sref="courses" ui-sref-active="active">Courses</a>
+	<a ui-sref="login" ui-sref-active="active">Login</a>
+	<ui-view></ui-view>
+
+    <script src="bundle.js"></script>
+</body>
+</html>

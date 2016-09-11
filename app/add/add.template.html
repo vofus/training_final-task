@@ -1,0 +1,49 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <h2>Add New Course</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="courseTitle">Course Title *</label>
+                        <input type="text"
+                               class="form-control"
+                               id="courseTitle"
+                               placeholder="Course title"
+                               ng-model="addVM.data.course.title">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseLink">Course Link *</label>
+                        <input type="text"
+                               class="form-control"
+                               id="courseLink"
+                               placeholder="Course link"
+                               ng-model="addVM.data.course.link">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseAuthor">Course Author</label>
+                        <select id="courseAuthor" class="form-control" ng-model="addVM.data.course.author">
+                            <option>Андрей</option>
+                            <option>Вася</option>
+                            <option>Федя</option>
+                            <option>Петя</option>
+                            <option>Ваня</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseDuration">Course Duration</label>
+                        <input type="text"
+                               class="form-control"
+                               id="courseDuration"
+                               placeholder="Duration"
+                               ng-model="addVM.data.course.duration">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default" ng-click="addVM.methods.add()">Add</button>
+                        <button class="btn btn-default" ng-click="addVM.methods.cancel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

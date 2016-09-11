@@ -1,0 +1,48 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <h2>Courses</h2>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Type phrase for search">
+            </div>
+            <div class="col-md-4 col-md-offset-4">
+                <button class="btn btn-default" ng-click="listVM.methods.archiveCourses()">Archive Selected</button>
+                <button class="btn btn-default" ng-click="listVM.methods.addNew()">Add New</button>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(key, val) in listVM.data.courses">
+                    <td>
+                        <input type="checkbox"
+                               ng-change="listVM.methods.editCheckedCourses(key, val)"
+                               ng-model="val.checked">
+                    </td>
+                    <td>{{ key }}</td>
+                    <td>
+                        <a href="{{ val.link }}" title="{{ val.title }}" target="_blank" ng-bind="val.title"></a>
+                    </td>
+                    <td ng-bind="val.author"></td>
+                    <td ng-bind="val.duration"></td>
+                    <td>
+                        <a ui-sref="edit({id: key})" ng-show="!val.archived">Edit</a>
+                        <a href="" ng-click="listVM.methods.remove(key)" ng-show="!val.archived">Delete</a>
+                        <a href="" ng-click="listVM.methods.unarchiveCourse(key, val)" ng-show="val.archived">Unarchive</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
