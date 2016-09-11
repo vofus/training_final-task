@@ -15,7 +15,7 @@ module.exports = {
   ],
   devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
   output: {
-    path: __dirname + '/app',
+    path: __dirname + '/public',
     filename: './bundle.js'
   },
   module: {
@@ -23,7 +23,9 @@ module.exports = {
       // {test: /\.js$/, loader: 'babel'},
       {test: /\.html$/, loader: 'raw'},
       {test: /\.css$/, loader: 'style!css'},
-      {test: /\.scss$/, loader: 'style!css!sass'}
+      {test: /\.scss$/, loader: 'style!css!sass'},
+      { test: /\.(png|jp*g|gif|svg)([\?]?.*)$/, loader: "file?name=[path][name].[ext]?[hash]"  },
+      { test: /\.(woff|ttf|eot)([\?]?.*)$/, loader: "file?name=[path][name].[ext]?[hash]" }
     ]
   },
   plugins: [

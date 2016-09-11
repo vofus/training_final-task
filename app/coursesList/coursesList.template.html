@@ -3,7 +3,11 @@
         <div class="row">
             <h2>Courses</h2>
             <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Type phrase for search">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Type phrase for search"
+                       ng-model="listVM.searchText"
+                       ng-keyup="listVM.methods.filterCourses()">
             </div>
             <div class="col-md-4 col-md-offset-4">
                 <button class="btn btn-default" ng-click="listVM.methods.archiveCourses()">Archive Selected</button>
@@ -27,11 +31,16 @@
                     <td>
                         <input type="checkbox"
                                ng-change="listVM.methods.editCheckedCourses(key, val)"
-                               ng-model="val.checked">
+                               ng-model="val.checked"
+                               ng-disabled="val.archived">
                     </td>
                     <td>{{ key }}</td>
                     <td>
-                        <a href="{{ val.link }}" title="{{ val.title }}" target="_blank" ng-bind="val.title"></a>
+                        <a href="{{ val.link }}"
+                           title="{{ val.title }}"
+                           target="_blank"
+                           ng-bind="val.title"
+                           ng-class="{ 'archived__link': val.archived }"></a>
                     </td>
                     <td ng-bind="val.author"></td>
                     <td ng-bind="val.duration"></td>

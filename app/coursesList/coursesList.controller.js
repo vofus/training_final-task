@@ -1,20 +1,22 @@
 (function() {
     'use strict';
 
-    coursesListCtrl.$inject = ['$state', '$stateParams', 'dataStore'];
+    coursesListCtrl.$inject = ['$state', '$timeout', 'dataStore'];
 
-    function coursesListCtrl($state, $stateParams, dataStore) {
+    function coursesListCtrl($state, $timeout, dataStore) {
         var vm = this;
 
         vm.data = {};
         vm.checkedCourses = {};
+        vm.searchText = '';
 
         vm.methods = {
             addNew: addNew,
             remove: remove,
             editCheckedCourses: editCheckedCourses,
             archiveCourses: archiveCourses,
-            unarchiveCourse: unarchiveCourse
+            unarchiveCourse: unarchiveCourse,
+            filterCourses: filterCourses
         };
 
         _activate();
@@ -57,6 +59,25 @@
             course.checked = false;
             dataStore.patchItem(id, course)
                 .then(_updateData);
+        }
+
+        function filterCourses() {
+            $timeout(transformFunc('title', vm.searchText), 1000);
+
+            function transformFunc(prop, pattern) {
+                var regExp = new RegExp(pattern, 'i');
+                dataStore.getData()
+                    .then(_updateData)
+                    .then(processingFunc);
+
+                function processingFunc() {
+                    for (var id in vm.data.courses) {
+                        if (!regExp.test(vm.data.courses[id][prop])) {
+                            delete vm.data.courses[id];
+                        }
+                    }
+                }
+            }
         }
 
         function _activate() {
