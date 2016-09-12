@@ -27,26 +27,24 @@
                     console.warn('Не удалось загрузить данные с сервера!', status);
                 });
 
+            // выполняем обработку ответа
             function transformFetchedData(data) {
                 console.info('Data download from server');
-                console.log(data);
 
+                console.log(data);
                 store.data = {};
                 store.data.courses = [];
-                store.data.authors = [];
 
-                // выполняем обработку ответа
+                store.data.authors = [];
                 for (var id in data.courses) {
-                    store.data.courses.push({
-                        id: id,
-                        course: data.courses[id]
-                    });
+                    var course = data.courses[id];
+                    course.id = id;
+                    store.data.courses.push(course);
                 }
                 for (var id in data.authors) {
-                    store.data.authors.push({
-                        id: id,
-                        course: data.authors[id]
-                    });
+                    var authors = data.authors[id];
+                    authors.id = id;
+                    store.data.authors.push(authors);
                 }
                 console.log('TEST GetData!!!', store.data);
                 return store.data;
@@ -67,8 +65,8 @@
 
                 for (var i = 0; i < coursesLength; i++) {
                     if (coursesArr[i].id === id) {
-                        console.log('Edit item: ', coursesArr[i].course);
-                        return $q.when(coursesArr[i].course);
+                        console.log('Edit item: ', coursesArr[i]);
+                        return $q.when(coursesArr[i]);
                         break;
                     }
                 }
@@ -82,16 +80,12 @@
                     console.warn('Не удалось загрузить данные на сервер!', status);
                 });
 
+            //выполняем обработку ответа
             function transformData(response) {
                 console.info('Data upload on server');
                 console.log(response);
-                store.data.courses.push({
-                    id: response.name,
-                    course: item
-                });
-
-                //выполняем обработку ответа
-                // return store.data;
+                item.id = response.name;
+                store.data.courses.push(item);
             }
         }
 
@@ -102,13 +96,13 @@
                     console.warn('Не удалось удалить элемент!', status);
                 });
 
+            //выполняем обработку ответа
             function transformData() {
-                //выполняем обработку ответа
                 var coursesArr = store.data.courses,
                     coursesLength = coursesArr.length;
                 for (var i = 0; i < coursesLength; i++) {
                     if (coursesArr[i].id === id) {
-                        console.log('Remove item: ', coursesArr[i].course);
+                        console.log('Remove item: ', coursesArr[i]);
                         coursesArr.splice(i, 1);
                         break;
                     }
@@ -126,14 +120,14 @@
                     console.warn('Обновление данных на сервере не удалось!', status);
                 });
 
+            //выполняем обработку ответа
             function transformData() {
-                //выполняем обработку ответа
                 console.info('Data update on server', item);
                 var coursesArr = store.data.courses,
                     coursesLength = coursesArr.length;
                 for (var i = 0; i < coursesLength; i++) {
                     if (coursesArr[i].id === id) {
-                        store.data.courses[i].course = editedItem;
+                        store.data.courses.splice(i, 1, editedItem);
                         break;
                     }
                 }

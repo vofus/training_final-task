@@ -18,35 +18,35 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Duration</th>
+                    <th><span class="column__header" ng-click="listVM.methods.sortBy('id')">ID</span></th>
+                    <th><span class="column__header" ng-click="listVM.methods.sortBy('title')">Title</span></th>
+                    <th><span class="column__header" ng-click="listVM.methods.sortBy('author')">Author</span></th>
+                    <th><span class="column__header" ng-click="listVM.methods.sortBy('duration')">Duration</span></th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="item in listVM.data.courses | filter : {course: {title: listVM.searchText}}">
+                <tr ng-repeat="item in listVM.data.courses | orderBy : listVM.sortProp : listVM.sortReverse | filter : {title: listVM.searchText} track by item.id">
                     <td>
                         <input type="checkbox"
-                               ng-change="listVM.methods.editCheckedCourses(item.id, item.course)"
-                               ng-model="item.course.checked"
-                               ng-disabled="item.course.archived">
+                               ng-change="listVM.methods.editCheckedCourses(item.id, item)"
+                               ng-model="item.checked"
+                               ng-disabled="item.archived">
                     </td>
                     <td>{{ item.id }}</td>
                     <td>
-                        <a href="{{ item.course.link }}"
-                           title="{{ item.course.title }}"
+                        <a href="{{ item.link }}"
+                           title="{{ item.title }}"
                            target="_blank"
-                           ng-bind="item.course.title"
-                           ng-class="{ 'archived__link': item.course.archived }"></a>
+                           ng-bind="item.title"
+                           ng-class="{ 'archived__link': item.archived }"></a>
                     </td>
-                    <td ng-bind="item.course.author"></td>
-                    <td ng-bind="item.course.duration"></td>
+                    <td ng-bind="item.author"></td>
+                    <td ng-bind="item.duration"></td>
                     <td>
-                        <a ui-sref="edit({id: item.id})" ng-show="!item.course.archived">Edit</a>
-                        <a href="" ng-click="listVM.methods.remove(item.id)" ng-show="!item.course.archived">Delete</a>
-                        <a href="" ng-click="listVM.methods.unarchiveCourse(item.id, item.course)" ng-show="item.course.archived">Unarchive</a>
+                        <a ui-sref="edit({id: item.id})" ng-show="!item.archived">Edit</a>
+                        <a href="" ng-click="listVM.methods.remove(item.id)" ng-show="!item.archived">Delete</a>
+                        <a href="" ng-click="listVM.methods.unarchiveCourse(item.id, item)" ng-show="item.archived">Unarchive</a>
                     </td>
                 </tr>
                 </tbody>

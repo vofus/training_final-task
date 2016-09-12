@@ -9,13 +9,16 @@
         vm.data = {};
         vm.checkedCourses = {};
         vm.searchText = '';
+        vm.sortProp = 'id';
+        vm.sortReverse = false;
 
         vm.methods = {
             addNew: addNew,
             remove: remove,
             editCheckedCourses: editCheckedCourses,
             archiveCourses: archiveCourses,
-            unarchiveCourse: unarchiveCourse
+            unarchiveCourse: unarchiveCourse,
+            sortBy: sortBy
         };
 
         _activate();
@@ -33,10 +36,10 @@
         }
 
         function editCheckedCourses(id, item) {
-            if (item.checked) {
+            if (item.checked && !item.archived) {
                 vm.checkedCourses[id] = item;
             }
-            if (!item.checked) {
+            if (!item.checked && !item.archived) {
                 delete vm.checkedCourses[id];
             }
         }
@@ -49,6 +52,7 @@
             dataStore.patchSameItems(vm.checkedCourses)
                 .then(function(data) {
                     console.log(data);
+                    vm.checkedCourses = {};
                     _updateData(data);
                 });
         }
@@ -58,6 +62,11 @@
             course.checked = false;
             dataStore.patchItem(id, course)
                 .then(_updateData);
+        }
+
+        function sortBy(prop) {     // prop: {string};
+            vm.sortProp = prop;
+            vm.sortReverse = !vm.sortReverse;
         }
 
         function _activate() {

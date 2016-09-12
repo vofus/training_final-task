@@ -6,3 +6,6 @@ header {
 .archived__link {
     pointer-events: none;
 }
+.column__header {
+    cursor: pointer;
+}
