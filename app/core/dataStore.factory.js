@@ -31,8 +31,24 @@
                 console.info('Data download from server');
                 console.log(data);
 
+                store.data = {};
+                store.data.courses = [];
+                store.data.authors = [];
+
                 // выполняем обработку ответа
-                store.data = data;
+                for (var id in data.courses) {
+                    store.data.courses.push({
+                        id: id,
+                        course: data.courses[id]
+                    });
+                }
+                for (var id in data.authors) {
+                    store.data.authors.push({
+                        id: id,
+                        course: data.authors[id]
+                    });
+                }
+                console.log('TEST GetData!!!', store.data);
                 return store.data;
             }
         }
@@ -41,13 +57,21 @@
             if (!store.data) {
                 return factory.getData()
                     .then(function(data) {
-                        var course = data['courses'][id];
+                        var course = data.courses[id];
                         return course;
                     });
             }
             if (!!store.data) {
-                var course = store.data['courses'][id];
-                return $q.when(course);
+                var coursesArr = store.data.courses,
+                    coursesLength = coursesArr.length;
+
+                for (var i = 0; i < coursesLength; i++) {
+                    if (coursesArr[i].id === id) {
+                        console.log('Edit item: ', coursesArr[i].course);
+                        return $q.when(coursesArr[i].course);
+                        break;
+                    }
+                }
             }
         }
 
@@ -61,7 +85,10 @@
             function transformData(response) {
                 console.info('Data upload on server');
                 console.log(response);
-                store.data.courses[response.name] = item;
+                store.data.courses.push({
+                    id: response.name,
+                    course: item
+                });
 
                 //выполняем обработку ответа
                 // return store.data;
@@ -77,7 +104,16 @@
 
             function transformData() {
                 //выполняем обработку ответа
-                delete store.data.courses[id];
+                var coursesArr = store.data.courses,
+                    coursesLength = coursesArr.length;
+                for (var i = 0; i < coursesLength; i++) {
+                    if (coursesArr[i].id === id) {
+                        console.log('Remove item: ', coursesArr[i].course);
+                        coursesArr.splice(i, 1);
+                        break;
+                    }
+                }
+                console.log(store.data);
                 return store.data;
             }
         }
@@ -91,9 +127,16 @@
                 });
 
             function transformData() {
-                console.info('Data update on server', item);
-                store.data.courses[id] = editedItem;
                 //выполняем обработку ответа
+                console.info('Data update on server', item);
+                var coursesArr = store.data.courses,
+                    coursesLength = coursesArr.length;
+                for (var i = 0; i < coursesLength; i++) {
+                    if (coursesArr[i].id === id) {
+                        store.data.courses[i].course = editedItem;
+                        break;
+                    }
+                }
                 return store.data;
             }
         }
