@@ -30,22 +30,25 @@
             // выполняем обработку ответа
             function transformFetchedData(data) {
                 console.info('Data download from server');
+                var courses = data.courses,
+                    authors = data.authors;
 
-                console.log(data);
                 store.data = {};
                 store.data.courses = [];
-
                 store.data.authors = [];
-                for (var id in data.courses) {
+
+                Object.keys(courses).forEach(function(id) {
                     var course = data.courses[id];
                     course.id = id;
                     store.data.courses.push(course);
-                }
-                for (var id in data.authors) {
-                    var authors = data.authors[id];
-                    authors.id = id;
-                    store.data.authors.push(authors);
-                }
+                });
+
+                Object.keys(authors).forEach(function(id) {
+                    var author = authors[id];
+                    author.id = id;
+                    store.data.authors.push(author);
+                });
+
                 console.log('TEST GetData!!!', store.data);
                 return store.data;
             }
@@ -137,9 +140,9 @@
 
         function patchSameItems(items) {
             var funcArr = [];
-            for (var id in items) {
+            Object.keys(items).forEach(function(id) {
                 funcArr.push(factory.patchItem(id, items[id]));
-            }
+            });
             return $q.all(funcArr)
                 .then(function() {
                     return store.data;
