@@ -8,6 +8,9 @@
 
         vm.data = {};
         vm.checkedCourses = {};
+        vm.allChecked = false;
+        vm.allCheckedDisable = false;
+        vm.disableArchive = true;
         vm.searchText = '';
         vm.sortProp = 'id';
         vm.sortReverse = false;
@@ -16,6 +19,7 @@
             addNew: addNew,
             remove: remove,
             editCheckedCourses: editCheckedCourses,
+            chooseAll: chooseAll,
             archiveCourses: archiveCourses,
             unarchiveCourse: unarchiveCourse,
             sortBy: sortBy
@@ -38,16 +42,39 @@
         function editCheckedCourses(id, item) {
             if (item.checked && !item.archived) {
                 vm.checkedCourses[id] = item;
+                _checkAvailable();
+                return;
             }
             if (!item.checked && !item.archived) {
                 delete vm.checkedCourses[id];
+                _checkAvailable();
+                return;
+            }
+        }
+
+        function chooseAll() {
+            if (vm.allChecked) {
+                vm.data.courses.forEach(function(item) {
+                    if (item.archived) return;
+                    item.checked = true;
+                    editCheckedCourses(item.id, item);
+                });
+                console.log(vm.checkedCourses);
+            }
+            if (!vm.allChecked) {
+                vm.data.courses.forEach(function(item) {
+                    if (item.archived) return;
+                    item.checked = false;
+                    editCheckedCourses(item.id, item);
+                });
+                console.log(vm.checkedCourses);
             }
         }
 
         function archiveCourses() {
-            for (var id in vm.checkedCourses) {
+            Object.keys(vm.checkedCourses).forEach(function(id) {
                 vm.checkedCourses[id].archived = true;
-            }
+            });
             console.log(vm.checkedCourses);
             dataStore.patchSameItems(vm.checkedCourses)
                 .then(function(data) {
@@ -76,7 +103,34 @@
 
         function _updateData(data) {
             vm.data = angular.copy(data);
+            _checkChooseAll();
+            _checkAvailable();
             console.info('Fetch COMPLETE!');
+        }
+
+        function _checkChooseAll() {
+            var check = vm.data.courses.every(checkFunc);
+
+            if (check) {
+                vm.allChecked = true;
+                vm.allCheckedDisable = true;
+            }
+            if (!check) {
+                vm.allChecked = false;
+                vm.allCheckedDisable = false;
+            }
+
+            function checkFunc(item) {
+                return item.archived === true;
+            }
+        }
+
+        function _checkAvailable() {
+            if (Object.keys(vm.checkedCourses).length > 0) {
+                vm.disableArchive = false;
+            } else {
+                vm.disableArchive = true;
+            }
         }
     }
 

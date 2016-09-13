@@ -9,7 +9,9 @@
                        ng-model="listVM.searchText">
             </div>
             <div class="col-md-4 col-md-offset-4">
-                <button class="btn btn-default" ng-click="listVM.methods.archiveCourses()">Archive Selected</button>
+                <button class="btn btn-default"
+                        ng-click="listVM.methods.archiveCourses()"
+                        ng-disabled="listVM.disableArchive">Archive Selected</button>
                 <button class="btn btn-default" ng-click="listVM.methods.addNew()">Add New</button>
             </div>
         </div>
@@ -17,7 +19,12 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th></th>
+                    <th>
+                        <input type="checkbox"
+                               ng-model="listVM.allChecked"
+                               ng-change="listVM.methods.chooseAll()"
+                               ng-disabled="listVM.allCheckedDisable">
+                    </th>
                     <th><span class="column__header" ng-click="listVM.methods.sortBy('id')">ID</span></th>
                     <th><span class="column__header" ng-click="listVM.methods.sortBy('title')">Title</span></th>
                     <th><span class="column__header" ng-click="listVM.methods.sortBy('author')">Author</span></th>
