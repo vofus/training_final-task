@@ -34,7 +34,7 @@ body {
   margin: 0 auto;
 }
 header {
-  height: 100px;
+  min-height: 100px;
   background-color: #3f51b5;
   /*background-color: red;*/
 }
@@ -45,11 +45,24 @@ header {
   cursor: pointer;
 }
 .project-btn {
+  width: 130px;
   height: 40px;
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: #f6511e;
   color: #fff;
   font-weight: 600;
+}
+.project-btn:hover {
+  color: #50546d;
+}
+.project-btn[disabled] {
+  background-color: #f5f5f5;
+  color: #cecece;
+}
+.page__title {
+  font-size: 2em;
+  font-weight: 800;
+  color: #50546d;
 }
 .logo__link:hover {
   text-decoration: none;
@@ -58,17 +71,15 @@ header {
   height: 100px;
   padding: 37px 0;
   margin: 0;
-  font-size: 2rem;
+  font-size: 2em;
   line-height: 1;
   color: #fff;
 }
 .logo__triangle {
   display: inline-block;
   margin-left: 10px;
-  /* width: 20px; */
-  /* height: 20px; */
-  border: 8px solid transparent;
-  border-left: 14px solid #fff;
+  border: 10px solid transparent;
+  border-left: 16px solid #fff;
   background-color: transparent;
 }
 .user {
@@ -109,12 +120,6 @@ header {
   color: #fff;
   text-decoration: none;
 }
-.auth__title {
-  margin: 44px 0;
-  font-size: 2rem;
-  font-weight: 800;
-  color: #50546d;
-}
 .auth__form-group {
   margin-bottom: 30px;
 }
@@ -126,11 +131,24 @@ header {
 .auth__form-control {
   height: 40px;
   border-radius: 2px;
-  font-size: 2rem;
+  font-size: 2em;
   color: #50546d;
 }
-.auth__btn {
-  width: 130px;
+.auth__auth__title {
+  margin: 44px 0;
+}
+.courses__archive-btn {
+  width: 160px;
+  margin-right: 6px;
+}
+.courses__title {
+  margin: 46px 0 26px;
+}
+.courses__search {
+  width: 370px;
+  height: 40px;
+  color: #c0b9b9;
+  font-size: 14px;
 }
 
 /*# sourceMappingURL=styles.css.map*/

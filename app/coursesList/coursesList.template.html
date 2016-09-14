@@ -1,63 +1,98 @@
 <section>
     <div class="container">
         <div class="row">
-            <h2>Courses</h2>
-            <div class="col-md-4">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Type phrase for search"
-                       ng-model="listVM.searchText">
+            <div class="col-md-12">
+                <h2 class="page__title courses__title">Courses</h2>
             </div>
-            <div class="col-md-4 col-md-offset-4">
-                <button class="btn btn-default"
+            <div class="col-md-6">
+                <div class="search__wrap">
+                    <input type="search"
+                           class="courses__search form-control"
+                           placeholder="Type phrase for search"
+                           ng-model="listVM.searchText"/>
+                    <span class="search__linze glyphicon glyphicon-search"></span>
+                </div>
+            </div>
+            <div class="col-md-4 col-md-offset-2 text-right">
+                <button class="project-btn courses__archive-btn btn btn-default"
                         ng-click="listVM.methods.archiveCourses()"
                         ng-disabled="listVM.disableArchive">Archive Selected</button>
-                <button class="btn btn-default" ng-click="listVM.methods.addNew()">Add New</button>
+                <button class="project-btn btn btn-default" ng-click="listVM.methods.addNew()">Add New</button>
             </div>
         </div>
         <div class="row">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>
-                        <input type="checkbox"
-                               ng-model="listVM.allChecked"
-                               ng-change="listVM.methods.chooseAll()"
-                               ng-disabled="listVM.allCheckedDisable">
-                    </th>
-                    <th><span class="column__header" ng-click="listVM.methods.sortBy('id')">ID</span></th>
-                    <th><span class="column__header" ng-click="listVM.methods.sortBy('title')">Title</span></th>
-                    <th><span class="column__header" ng-click="listVM.methods.sortBy('author')">Author</span></th>
-                    <th><span class="column__header" ng-click="listVM.methods.sortBy('duration')">Duration</span></th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in listVM.data.courses | filter : {title: listVM.searchText} | orderBy : listVM.sortProp : listVM.sortReverse track by item.id">
-                    <td>
-                        <input type="checkbox"
-                               ng-change="listVM.methods.editCheckedCourses(item.id, item)"
-                               ng-model="item.checked"
-                               ng-disabled="item.archived">
-                    </td>
-                    <td>{{ item.id }}</td>
-                    <td>
-                        <a href="{{ item.link }}"
-                           title="{{ item.title }}"
-                           target="_blank"
-                           ng-bind="item.title"
-                           ng-class="{ 'archived__link': item.archived }"></a>
-                    </td>
-                    <td ng-bind="item.author"></td>
-                    <td ng-bind="item.duration"></td>
-                    <td>
-                        <a ui-sref="edit({id: item.id})" ng-show="!item.archived">Edit</a>
-                        <a href="" ng-click="listVM.methods.remove(item.id)" ng-show="!item.archived">Delete</a>
-                        <a href="" ng-click="listVM.methods.unarchiveCourse(item.id, item)" ng-show="item.archived">Unarchive</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="col-md-12">
+                <table class="courses__table table table-hover">
+                    <col style="width: 2%">
+                    <col style="width: 18%">
+                    <col style="width: 45%">
+                    <col style="width: 12%">
+                    <col style="width: 12%">
+                    <col style="width: 11%">
+                    <thead>
+                    <tr>
+                        <th class="courses__table-cell">
+                            <input type="checkbox"
+                                   ng-model="listVM.allChecked"
+                                   ng-change="listVM.methods.chooseAll()"
+                                   ng-disabled="listVM.allCheckedDisable">
+                        </th>
+                        <th class="courses__table-cell courses__header-cell">
+                            <span class="column__header" ng-click="listVM.methods.sortBy('id')">ID</span>
+                            <span class="sort__arrow"
+                                  ng-show="listVM.sortProp === 'id'"
+                                  ng-class="{ 'sort__arrow--up': listVM.sortReverse }"></span>
+                        </th>
+                        <th class="courses__table-cell">
+                            <span class="column__header" ng-click="listVM.methods.sortBy('title')">Title</span>
+                            <span class="sort__arrow"
+                                  ng-show="listVM.sortProp === 'title'"
+                                  ng-class="{ 'sort__arrow--up': listVM.sortReverse }"></span>
+                        </th>
+                        <th class="courses__table-cell courses__header-cell">
+                            <span class="column__header" ng-click="listVM.methods.sortBy('author')">Author</span>
+                            <span class="sort__arrow"
+                                  ng-show="listVM.sortProp === 'author'"
+                                  ng-class="{ 'sort__arrow--up': listVM.sortReverse }"></span>
+                        </th>
+                        <th class="courses__table-cell courses__header-cell">
+                            <span class="column__header" ng-click="listVM.methods.sortBy('duration')">Duration</span>
+                            <span class="sort__arrow"
+                                  ng-show="listVM.sortProp === 'duration'"
+                                  ng-class="{ 'sort__arrow--up': listVM.sortReverse }"></span>
+                        </th>
+                        <th class="courses__table-cell courses__header-cell">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in listVM.data.courses | filter : {title: listVM.searchText} | orderBy : listVM.sortProp : listVM.sortReverse track by item.id"
+                        class="courses__table-row"
+                        ng-class="{ 'courses__table-row--archived': item.archived }">
+                        <td class="courses__table-cell">
+                            <input type="checkbox"
+                                   ng-change="listVM.methods.editCheckedCourses(item.id, item)"
+                                   ng-model="item.checked"
+                                   ng-disabled="item.archived">
+                        </td>
+                        <td class="courses__table-cell">{{ item.id }}</td>
+                        <td class="courses__table-cell">
+                            <a href="{{ item.link }}"
+                               title="{{ item.title }}"
+                               target="_blank"
+                               ng-bind="item.title"
+                               ng-class="{ 'courses__table-link--archived': item.archived }"></a>
+                        </td>
+                        <td class="courses__table-cell" ng-bind="item.author"></td>
+                        <td class="courses__table-cell" ng-bind="item.duration"></td>
+                        <td class="courses__table-cell">
+                            <a ui-sref="edit({id: item.id})" ng-show="!item.archived" class="courses__action--edit">Edit</a>
+                            <a href="" ng-click="listVM.methods.remove(item.id)" ng-show="!item.archived">Delete</a>
+                            <a href="" ng-click="listVM.methods.unarchiveCourse(item.id, item)" ng-show="item.archived">Unarchive</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>
