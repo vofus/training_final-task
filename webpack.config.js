@@ -3,6 +3,8 @@
 var webpack = require('webpack');
 var path    = require('path');
 
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 var HOST = process.env.HOST || "127.0.0.1";
 var PORT = process.env.PORT || "8080";
 
@@ -22,18 +24,19 @@ module.exports = {
     loaders: [
       // {test: /\.js$/, loader: 'babel'},
       {test: /\.html$/, loader: 'raw'},
-      {test: /\.css$/, loader: 'style!css'},
-      {test: /\.scss$/, loader: 'style!css!sass'},
-      { test: /\.(png|jp*g|gif|svg)([\?]?.*)$/, loader: "file?name=[path][name].[ext]?[hash]"  },
-      { test: /\.(woff|ttf|eot)([\?]?.*)$/, loader: "file?name=[path][name].[ext]?[hash]" }
+      {test: /\.css$/, loader: ExtractTextPlugin.extract('css!autoprefixer-loader?browsers=last 2 version')},
+      {test: /\.less$/, loader: ExtractTextPlugin.extract('css!autoprefixer-loader?browsers=last 2 version!less')},
+      {test: /\.(png|jp*g|gif|svg)$/, loader: "file?name=[path][name].[ext]?[hash]"},
+      {test: /\.(woff|ttf|eot)$/, loader: "file?name=[path][name].[ext]?[hash]"}
     ]
   },
   plugins: [
       new webpack.NoErrorsPlugin(),
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new ExtractTextPlugin('styles.css', {allChunks: true})
   ],
   devServer: {
-    contentBase: "./app",
+    contentBase: "./public",
     // noInfo: true, //  --no-info option
     hot: true,
     inline: true
