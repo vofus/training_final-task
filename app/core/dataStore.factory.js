@@ -87,6 +87,7 @@
             function transformData(response) {
                 console.info('Data upload on server');
                 console.log(response);
+
                 item.id = response.name;
                 store.data.courses.push(item);
             }
@@ -143,6 +144,7 @@
             Object.keys(items).forEach(function(id) {
                 funcArr.push(factory.patchItem(id, items[id]));
             });
+
             return $q.all(funcArr)
                 .then(function() {
                     return store.data;
