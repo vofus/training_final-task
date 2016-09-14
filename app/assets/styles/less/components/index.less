@@ -1,0 +1,67 @@
+header {
+	height: 100px;
+	background-color: #3f51b5;
+	/*background-color: red;*/
+}
+.archived__link {
+	pointer-events: none;
+}
+.column__header {
+	cursor: pointer;
+}
+.project-btn {
+	height: 40px;
+	border-radius: 2px;
+	background-color: @btn-color;
+	color: #fff;
+	font-weight: 600;
+}
+.logo {
+	&__link {
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	&__title {
+		height: 100px;
+		padding: 37px 0;
+		margin: 0;
+		font-size: 2rem;
+		line-height: 1;
+		color: #fff;
+	}
+	&__triangle {
+		display: inline-block;
+		margin-left: 10px;
+		/* width: 20px; */
+		/* height: 20px; */
+		border: 8px solid transparent;
+		border-left: 14px solid #fff;
+		background-color: transparent;
+	}
+}
+.auth {
+	&__title {
+		margin: 44px 0;
+		font-size: 2rem;
+		font-weight: 800;
+		color: @font-color;
+	}
+	&__form-group {
+		margin-bottom: 30px;
+	}
+	&__label {
+		margin-bottom: 10px;
+		font-weight: 600;
+		color: @font-color-light;
+	}
+	&__form-control {
+		height: 40px;
+		border-radius: 2px;
+		font-size: 2rem;
+		color: @font-color;
+	}
+	&__btn {
+		width: 130px;
+	}
+}
