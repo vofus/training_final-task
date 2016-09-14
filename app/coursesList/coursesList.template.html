@@ -33,7 +33,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="item in listVM.data.courses | orderBy : listVM.sortProp : listVM.sortReverse | filter : {title: listVM.searchText} track by item.id">
+                <tr ng-repeat="item in listVM.data.courses | filter : {title: listVM.searchText} | orderBy : listVM.sortProp : listVM.sortReverse track by item.id">
                     <td>
                         <input type="checkbox"
                                ng-change="listVM.methods.editCheckedCourses(item.id, item)"

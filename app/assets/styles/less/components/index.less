@@ -40,6 +40,44 @@ header {
 		background-color: transparent;
 	}
 }
+.user {
+	padding: 30px 0;
+	overflow: hidden;
+	&__avatar {
+		float: left;
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		& img {
+			display: block;
+			max-width: 100%;
+			height: auto;
+			border-radius: 50%;
+		}
+	}
+	&__bar {
+		float: left;
+		display: inline-block;
+		height: 40px;
+		margin-left: 14px;
+	}
+	&__name {
+		margin: 4px 0 0 0;
+		line-height: 1;
+		color: @user-color;
+		font-weight: 600;
+	}
+	&__logout {
+		display: block;
+		margin: 6px 0 0 0;
+		line-height: 1;
+		color: @user-color;
+		&:hover {
+			color: #fff;
+			text-decoration: none;
+		}
+	}
+}
 .auth {
 	&__title {
 		margin: 44px 0;

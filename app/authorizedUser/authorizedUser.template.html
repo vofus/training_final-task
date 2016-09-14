@@ -8,7 +8,13 @@
                     </a>
                 </div>
                 <div class="col-md-2 col-md-offset-6">
-                    <button class="btn btn-default" ng-click="headerVM.methods.signOut()">Logout</button>
+                    <div class="user">
+                        <div class="user__avatar"><img src="assets/styles/less/img/avatar.jpg" alt="avatar"></div>
+                        <div class="user__bar">
+                            <p class="user__name">Andrey Vasin</p>
+                            <a href="" class="user__logout" ng-click="headerVM.methods.signOut()">Logout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
