@@ -1,3 +1,5 @@
+require('./assets/styles/less/main.less');
+
 var angular = require('angular');
 var router = require('angular-ui-router');
 
