@@ -1,0 +1,48 @@
+@font-face {
+  font-family: 'OpenSans';
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansRegular/OpenSansRegular.eot?91e049db2f1148f1f0e607bfbcba1a47);
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansRegular/OpenSansRegular.eot?91e049db2f1148f1f0e607bfbcba1a47?#iefix) format('embedded-opentype'), url(assets/styles/less/fonts/OpenSans/OpenSansRegular/OpenSansRegular.woff?0f7c77932ea877aca544e439a3e63bb6) format('woff'), url(assets/styles/less/fonts/OpenSans/OpenSansRegular/OpenSansRegular.ttf?5874364d5ae80a8671d620d78ff9f1b5) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansLight/OpenSansLight.eot?eb578c83a7d79f561b41d2436c5a9f35);
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansLight/OpenSansLight.eot?eb578c83a7d79f561b41d2436c5a9f35?#iefix) format('embedded-opentype'), url(assets/styles/less/fonts/OpenSans/OpenSansLight/OpenSansLight.woff?f5e96f06811c03c019d10f2a8402303a) format('woff'), url(assets/styles/less/fonts/OpenSans/OpenSansLight/OpenSansLight.ttf?12c8a8c628ce99ed729f003698183a3a) format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansSemiBold/OpenSansSemiBold.eot?6f641b6a0b440cc3bf3091c6fb81daf0);
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansSemiBold/OpenSansSemiBold.eot?6f641b6a0b440cc3bf3091c6fb81daf0?#iefix) format('embedded-opentype'), url(assets/styles/less/fonts/OpenSans/OpenSansSemiBold/OpenSansSemiBold.woff?e59cc16dd973933b69c36dbeebbb7544) format('woff'), url(assets/styles/less/fonts/OpenSans/OpenSansSemiBold/OpenSansSemiBold.ttf?746b69f0f683ddb1e53427c137d2b220) format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans';
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansBold/OpenSansBold.eot?08862c283f9f67a94116085cc5ba989d);
+  src: url(assets/styles/less/fonts/OpenSans/OpenSansBold/OpenSansBold.eot?08862c283f9f67a94116085cc5ba989d?#iefix) format('embedded-opentype'), url(assets/styles/less/fonts/OpenSans/OpenSansBold/OpenSansBold.woff?eff2996162fdfe7c6af7995d3f790275) format('woff'), url(assets/styles/less/fonts/OpenSans/OpenSansBold/OpenSansBold.ttf?c3b34d59ef4c949d25a4f32b5096471a) format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+body {
+  font-family: 'OpenSans', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+header {
+  height: 100px;
+  background-color: #3f51b5;
+  /*background-color: red;*/
+}
+.archived__link {
+  pointer-events: none;
+}
+.column__header {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=styles.css.map*/
