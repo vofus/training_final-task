@@ -13,6 +13,8 @@
             cancel: cancel
         };
 
+        _checkDataStore();
+
         function add() {
             console.log(vm.data.course);
             dataStore.postItem(vm.data.course)
@@ -23,6 +25,13 @@
 
         function cancel() {
             $state.go('courses');
+        }
+
+        function _checkDataStore() {
+            dataStore.getData()
+                .then(function(data) {
+                    console.info('Data updated!');
+                });
         }
     }
 

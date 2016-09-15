@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <a href="index.html" class="logo__link">
+                    <a href="/" class="logo__link">
                         <h1 class="logo__title">FRONTEND<span class="logo__triangle"></span>VIDEO</h1>
                     </a>
                 </div>
@@ -17,31 +17,33 @@
                 <div class="col-md-4 col-md-offset-4">
                     <h2 class="page__title auth__title">Authorization</h2>
                     <form name="loginForm" novalidate>
-                        <div class="auth__form-group form-group" ng-class="{'has-success': loginForm.username.$valid && loginForm.username.$dirty, 'has-error': loginForm.username.$invalid && loginForm.username.$dirty}">
-                            <label class="auth__label" for="loginUsername">Username:</label>
+                        <div class="page__form-group form-group" ng-class="{'has-success': loginForm.username.$valid && loginForm.username.$dirty, 'has-error': loginForm.username.$invalid && loginForm.username.$dirty}">
+                            <label class="page__label" for="loginUsername">Username:</label>
                             <input type="text"
-                                   class="auth__form-control form-control"
+                                   placeholder="vofus"
+                                   class="page__form-control form-control"
                                    id="loginUsername"
                                    name="username"
                                    pattern="^[A-Za-z\d_]+$"
                                    ng-model="loginVM.login"
                                    ng-model-options="{ updateOn: 'blur' }"
                                    required>
-                            <span class="help-block" ng-show="loginForm.username.$error.required && loginForm.username.$dirty">* Поле "username" обязательно для заполнения</span>
-                            <span class="help-block" ng-show="loginForm.username.$error.pattern && loginForm.username.$dirty">* Поле "username" может содержать только латинские буквы, цифры и знак подчеркивания</span>
+                            <span class="help-block" ng-show="loginForm.username.$error.required && loginForm.username.$dirty">Поле "username" обязательно для заполнения</span>
+                            <span class="help-block" ng-show="loginForm.username.$error.pattern && loginForm.username.$dirty">Поле "username" может содержать только латинские буквы, цифры и знак подчеркивания</span>
                         </div>
-                        <div class="auth__form-group form-group" ng-class="{'has-success': loginForm.password.$valid && loginForm.password.$dirty, 'has-error': loginForm.password.$invalid && loginForm.password.$dirty}">
-                            <label class="auth__label" for="loginPassword">Password:</label>
+                        <div class="page__form-group form-group" ng-class="{'has-success': loginForm.password.$valid && loginForm.password.$dirty, 'has-error': loginForm.password.$invalid && loginForm.password.$dirty}">
+                            <label class="page__label" for="loginPassword">Password:</label>
                             <input type="password"
-                                   class="auth__form-control form-control"
+                                   placeholder="123"
+                                   class="page__form-control form-control"
                                    id="loginPassword"
                                    name="password"
                                    pattern="^[A-Za-z\d_]+$"
                                    ng-model="loginVM.password"
                                    ng-model-options="{ updateOn: 'blur' }"
                                    required>
-                            <span ng-show="loginForm.password.$error.required && loginForm.password.$dirty">* Поле "password" обязательно для заполнения</span>
-                            <span ng-show="loginForm.password.$error.pattern && loginForm.password.$dirty">* Поле "password" может содержать только латинские буквы, цифры и знак подчеркивания</span>
+                            <span class="help-block" ng-show="loginForm.password.$error.required && loginForm.password.$dirty">Поле "password" обязательно для заполнения</span>
+                            <span class="help-block" ng-show="loginForm.password.$error.pattern && loginForm.password.$dirty">Поле "password" может содержать только латинские буквы, цифры и знак подчеркивания</span>
                         </div>
                         <div class="form-group">
                             <button class="project-btn btn btn-default"

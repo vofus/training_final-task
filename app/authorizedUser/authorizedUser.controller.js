@@ -6,13 +6,20 @@
     function authorizedUserCtrl(auth) {
         var vm = this;
 
+        vm.user = {};
+
         vm.methods = {
             signOut: signOut
         };
 
+        _initUser();
+
         function signOut() {
-            console.log('SignOut');
             auth.signOut();
+        }
+
+        function _initUser() {
+            vm.user = auth.getUserProfile();
         }
     }
 

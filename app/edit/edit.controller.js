@@ -24,7 +24,6 @@
             dataStore.getCourseById(vm.data.id)
                 .then(function(course) {
                     vm.data.course = angular.copy(course);
-                    console.log(vm.data);
                 });
         }
 

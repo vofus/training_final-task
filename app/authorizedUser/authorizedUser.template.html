@@ -9,9 +9,9 @@
                 </div>
                 <div class="col-sm-3 col-sm-offset-3 text-center">
                     <div class="user">
-                        <div class="user__avatar"><img src="assets/styles/less/img/avatar.jpg" alt="avatar"></div>
+                        <div class="user__avatar"><img src="{{ ::headerVM.user.avatar }}" alt="avatar"></div>
                         <div class="user__bar">
-                            <p class="user__name">Andrey Vasin</p>
+                            <p class="user__name" ng-bind="::headerVM.user.name"></p>
                             <a href="" class="user__logout" ng-click="headerVM.methods.signOut()">Logout</a>
                         </div>
                     </div>

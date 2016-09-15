@@ -15,7 +15,10 @@ header {
 	color: #fff;
 	font-weight: 600;
 	&:hover {
-		color: @font-color;
+		//color: @font-color;
+		background-color: #fff;
+		color: @btn-color;
+		border-color: @btn-color;
 	}
 	&[disabled] {
 		background-color: @btn-disable-bg;
@@ -26,6 +29,20 @@ header {
 	&__title {
 		font-size: 2em;
 		font-weight: 800;
+		color: @font-color;
+	}
+	&__form-group {
+		margin-bottom: 30px;
+	}
+	&__label {
+		margin-bottom: 10px;
+		font-weight: 600;
+		color: @font-color-light;
+	}
+	&__form-control {
+		height: 40px;
+		border-radius: 2px;
+		font-size: 14px;
 		color: @font-color;
 	}
 }
@@ -93,21 +110,7 @@ header {
 	}
 }
 .auth {
-	&__form-group {
-		margin-bottom: 30px;
-	}
-	&__label {
-		margin-bottom: 10px;
-		font-weight: 600;
-		color: @font-color-light;
-	}
-	&__form-control {
-		height: 40px;
-		border-radius: 2px;
-		font-size: 2em;
-		color: @font-color;
-	}
-	&__auth__title {
+	&__title {
 		margin: 44px 0;
 	}
 }
@@ -122,6 +125,7 @@ header {
 	&__search {
 		width: 370px;
 		height: 40px;
+		padding-right: 40px;
 		color: @font-color-placeholder;
 		font-size: 14px;
 	}
@@ -180,5 +184,25 @@ header {
 		transform: translateY(-50%);
 		color: #c0b9b9;
 		font-size: 1.4em;
+	}
+}
+.edit {
+	&__title {
+		margin: 44px 0;
+	}
+	&__duration {
+		width: 100px;
+	}
+	&__save {
+		margin-right: 16px;
+	}
+}
+/* === OverRides === */
+.has-error {
+	& .page__form-control {
+		border-color: @btn-color;
+	}
+	& .help-block {
+		color: @btn-color;
 	}
 }

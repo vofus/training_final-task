@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "6499902e5c4c346100c2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a0100d097273753a90da"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -37115,7 +37115,6 @@
 	                    store.data.authors.push(author);
 	                });
 
-	                console.log('TEST GetData!!!', store.data);
 	                return store.data;
 	            }
 	        }
@@ -37124,21 +37123,29 @@
 	            if (!store.data) {
 	                return factory.getData()
 	                    .then(function(data) {
-	                        var course = data.courses[id];
+	                        var course = {},
+	                            coursesArr = data.courses;
+	                        coursesArr.forEach(function(item) {
+	                            if (item.id === id) {
+	                                console.log('Edit item: ', item);
+	                                course = item;
+	                                return;
+	                            }
+	                        });
 	                        return course;
 	                    });
 	            }
 	            if (!!store.data) {
-	                var coursesArr = store.data.courses,
-	                    coursesLength = coursesArr.length;
-
-	                for (var i = 0; i < coursesLength; i++) {
-	                    if (coursesArr[i].id === id) {
-	                        console.log('Edit item: ', coursesArr[i]);
-	                        return $q.when(coursesArr[i]);
-	                        break;
+	                var course = {},
+	                    coursesArr = store.data.courses;
+	                coursesArr.forEach(function(item) {
+	                    if (item.id === id) {
+	                        console.log('Edit item: ', item);
+	                        course = item;
+	                        return;
 	                    }
-	                }
+	                });
+	                return $q.when(course);
 	            }
 	        }
 
@@ -37177,7 +37184,7 @@
 	                        break;
 	                    }
 	                }
-	                console.log(store.data);
+
 	                return store.data;
 	            }
 	        }
@@ -37249,7 +37256,11 @@
 	    function authFactory($state) {
 	        var _authData = {
 	            login: 'vofus',
-	            password: '123'
+	            password: '123',
+	            profile: {
+	                name: 'Andrey Vasin',
+	                avatar: 'assets/styles/less/img/avatar.jpg'
+	            }
 	        };
 
 	        var _store = window.sessionStorage;
@@ -37257,13 +37268,18 @@
 	        var _methods = {
 	            getAuthState: getAuthState,
 	            signUp: signUp,
-	            signOut: signOut
+	            signOut: signOut,
+	            getUserProfile: getUserProfile
 	        };
 
 	        return _methods;
 
 	        function getAuthState() {
 	            return JSON.parse(_store.getItem('auth'));
+	        }
+
+	        function getUserProfile() {
+	            return _authData.profile;
 	        }
 
 	        function signUp(login, password) {
@@ -37336,11 +37352,7 @@
 	            signUp: signUp
 	        };
 
-	        console.log('Test! LoginCtrl!');
-	        console.log('================');
-	        // console.log(vm.test);
 	        function signUp() {
-	            console.log(vm.login, vm.password);
 	            auth.signUp(vm.login, vm.password);
 	        }
 	    }
@@ -37376,7 +37388,7 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"page__wrap\">\n    <header>\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-md-4\">\n                    <a href=\"index.html\" class=\"logo__link\">\n                        <h1 class=\"logo__title\">FRONTEND<span class=\"logo__triangle\"></span>VIDEO</h1>\n                    </a>\n                </div>\n                <div class=\"col-md-8\"></div>\n            </div>\n        </div>\n    </header>\n    <section>\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-md-4 col-md-offset-4\">\n                    <h2 class=\"page__title auth__title\">Authorization</h2>\n                    <form name=\"loginForm\" novalidate>\n                        <div class=\"auth__form-group form-group\" ng-class=\"{'has-success': loginForm.username.$valid && loginForm.username.$dirty, 'has-error': loginForm.username.$invalid && loginForm.username.$dirty}\">\n                            <label class=\"auth__label\" for=\"loginUsername\">Username:</label>\n                            <input type=\"text\"\n                                   class=\"auth__form-control form-control\"\n                                   id=\"loginUsername\"\n                                   name=\"username\"\n                                   pattern=\"^[A-Za-z\\d_]+$\"\n                                   ng-model=\"loginVM.login\"\n                                   ng-model-options=\"{ updateOn: 'blur' }\"\n                                   required>\n                            <span class=\"help-block\" ng-show=\"loginForm.username.$error.required && loginForm.username.$dirty\">* Поле \"username\" обязательно для заполнения</span>\n                            <span class=\"help-block\" ng-show=\"loginForm.username.$error.pattern && loginForm.username.$dirty\">* Поле \"username\" может содержать только латинские буквы, цифры и знак подчеркивания</span>\n                        </div>\n                        <div class=\"auth__form-group form-group\" ng-class=\"{'has-success': loginForm.password.$valid && loginForm.password.$dirty, 'has-error': loginForm.password.$invalid && loginForm.password.$dirty}\">\n                            <label class=\"auth__label\" for=\"loginPassword\">Password:</label>\n                            <input type=\"password\"\n                                   class=\"auth__form-control form-control\"\n                                   id=\"loginPassword\"\n                                   name=\"password\"\n                                   pattern=\"^[A-Za-z\\d_]+$\"\n                                   ng-model=\"loginVM.password\"\n                                   ng-model-options=\"{ updateOn: 'blur' }\"\n                                   required>\n                            <span ng-show=\"loginForm.password.$error.required && loginForm.password.$dirty\">* Поле \"password\" обязательно для заполнения</span>\n                            <span ng-show=\"loginForm.password.$error.pattern && loginForm.password.$dirty\">* Поле \"password\" может содержать только латинские буквы, цифры и знак подчеркивания</span>\n                        </div>\n                        <div class=\"form-group\">\n                            <button class=\"project-btn btn btn-default\"\n                                    ng-click=\"loginVM.methods.signUp()\"\n                                    ng-disabled=\"loginForm.$invalid\">Login</button>\n                        </div>\n                    </form>\n                </div>\n            </div>\n        </div>\n    </section>\n</div>"
+	module.exports = "<div class=\"page__wrap\">\n    <header>\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-md-4\">\n                    <a href=\"/\" class=\"logo__link\">\n                        <h1 class=\"logo__title\">FRONTEND<span class=\"logo__triangle\"></span>VIDEO</h1>\n                    </a>\n                </div>\n                <div class=\"col-md-8\"></div>\n            </div>\n        </div>\n    </header>\n    <section>\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-md-4 col-md-offset-4\">\n                    <h2 class=\"page__title auth__title\">Authorization</h2>\n                    <form name=\"loginForm\" novalidate>\n                        <div class=\"page__form-group form-group\" ng-class=\"{'has-success': loginForm.username.$valid && loginForm.username.$dirty, 'has-error': loginForm.username.$invalid && loginForm.username.$dirty}\">\n                            <label class=\"page__label\" for=\"loginUsername\">Username:</label>\n                            <input type=\"text\"\n                                   placeholder=\"vofus\"\n                                   class=\"page__form-control form-control\"\n                                   id=\"loginUsername\"\n                                   name=\"username\"\n                                   pattern=\"^[A-Za-z\\d_]+$\"\n                                   ng-model=\"loginVM.login\"\n                                   ng-model-options=\"{ updateOn: 'blur' }\"\n                                   required>\n                            <span class=\"help-block\" ng-show=\"loginForm.username.$error.required && loginForm.username.$dirty\">Поле \"username\" обязательно для заполнения</span>\n                            <span class=\"help-block\" ng-show=\"loginForm.username.$error.pattern && loginForm.username.$dirty\">Поле \"username\" может содержать только латинские буквы, цифры и знак подчеркивания</span>\n                        </div>\n                        <div class=\"page__form-group form-group\" ng-class=\"{'has-success': loginForm.password.$valid && loginForm.password.$dirty, 'has-error': loginForm.password.$invalid && loginForm.password.$dirty}\">\n                            <label class=\"page__label\" for=\"loginPassword\">Password:</label>\n                            <input type=\"password\"\n                                   placeholder=\"123\"\n                                   class=\"page__form-control form-control\"\n                                   id=\"loginPassword\"\n                                   name=\"password\"\n                                   pattern=\"^[A-Za-z\\d_]+$\"\n                                   ng-model=\"loginVM.password\"\n                                   ng-model-options=\"{ updateOn: 'blur' }\"\n                                   required>\n                            <span class=\"help-block\" ng-show=\"loginForm.password.$error.required && loginForm.password.$dirty\">Поле \"password\" обязательно для заполнения</span>\n                            <span class=\"help-block\" ng-show=\"loginForm.password.$error.pattern && loginForm.password.$dirty\">Поле \"password\" может содержать только латинские буквы, цифры и знак подчеркивания</span>\n                        </div>\n                        <div class=\"form-group\">\n                            <button class=\"project-btn btn btn-default\"\n                                    ng-click=\"loginVM.methods.signUp()\"\n                                    ng-disabled=\"loginForm.$invalid\">Login</button>\n                        </div>\n                    </form>\n                </div>\n            </div>\n        </div>\n    </section>\n</div>"
 
 /***/ },
 /* 15 */
@@ -37422,13 +37434,20 @@
 	    function authorizedUserCtrl(auth) {
 	        var vm = this;
 
+	        vm.user = {};
+
 	        vm.methods = {
 	            signOut: signOut
 	        };
 
+	        _initUser();
+
 	        function signOut() {
-	            console.log('SignOut');
 	            auth.signOut();
+	        }
+
+	        function _initUser() {
+	            vm.user = auth.getUserProfile();
 	        }
 	    }
 
@@ -37464,7 +37483,7 @@
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"page__wrap\">\n    <header>\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-6\">\n                    <a href=\"index.html\" class=\"logo__link\">\n                        <h1 class=\"logo__title\">FRONTEND<span class=\"logo__triangle\"></span>VIDEO</h1>\n                    </a>\n                </div>\n                <div class=\"col-sm-3 col-sm-offset-3\">\n                    <div class=\"user\">\n                        <div class=\"user__avatar\"><img src=\"assets/styles/less/img/avatar.jpg\" alt=\"avatar\"></div>\n                        <div class=\"user__bar\">\n                            <p class=\"user__name\">Andrey Vasin</p>\n                            <a href=\"\" class=\"user__logout\" ng-click=\"headerVM.methods.signOut()\">Logout</a>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </header>\n    <ui-view></ui-view>\n</div>"
+	module.exports = "<div class=\"page__wrap\">\n    <header>\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-6\">\n                    <a href=\"index.html\" class=\"logo__link\">\n                        <h1 class=\"logo__title\">FRONTEND<span class=\"logo__triangle\"></span>VIDEO</h1>\n                    </a>\n                </div>\n                <div class=\"col-sm-3 col-sm-offset-3 text-center\">\n                    <div class=\"user\">\n                        <div class=\"user__avatar\"><img src=\"{{ ::headerVM.user.avatar }}\" alt=\"avatar\"></div>\n                        <div class=\"user__bar\">\n                            <p class=\"user__name\" ng-bind=\"::headerVM.user.name\"></p>\n                            <a href=\"\" class=\"user__logout\" ng-click=\"headerVM.methods.signOut()\">Logout</a>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </header>\n    <ui-view></ui-view>\n</div>"
 
 /***/ },
 /* 19 */
@@ -37564,7 +37583,6 @@
 	                    item.checked = true;
 	                    editCheckedCourses(item.id, item);
 	                });
-	                console.log(vm.checkedCourses);
 	            }
 	            if (!vm.allChecked) {
 	                vm.data.courses.forEach(function(item) {
@@ -37572,7 +37590,6 @@
 	                    item.checked = false;
 	                    editCheckedCourses(item.id, item);
 	                });
-	                console.log(vm.checkedCourses);
 	            }
 	        }
 
@@ -37670,7 +37687,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <h2 class=\"page__title courses__title\">Courses</h2>\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"search__wrap\">\n                    <input type=\"search\"\n                           class=\"courses__search form-control\"\n                           placeholder=\"Type phrase for search\"\n                           ng-model=\"listVM.searchText\">\n                    <span class=\"glyphicon glyphicon-search\"></span>\n                </div>\n            </div>\n            <div class=\"col-md-4 col-md-offset-2 text-right\">\n                <button class=\"project-btn courses__archive-btn btn btn-default\"\n                        ng-click=\"listVM.methods.archiveCourses()\"\n                        ng-disabled=\"listVM.disableArchive\">Archive Selected</button>\n                <button class=\"project-btn btn btn-default\" ng-click=\"listVM.methods.addNew()\">Add New</button>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <table class=\"table table-hover\">\n                    <thead>\n                    <tr>\n                        <th>\n                            <input type=\"checkbox\"\n                                   ng-model=\"listVM.allChecked\"\n                                   ng-change=\"listVM.methods.chooseAll()\"\n                                   ng-disabled=\"listVM.allCheckedDisable\">\n                        </th>\n                        <th><span class=\"column__header\" ng-click=\"listVM.methods.sortBy('id')\">ID</span></th>\n                        <th><span class=\"column__header\" ng-click=\"listVM.methods.sortBy('title')\">Title</span></th>\n                        <th><span class=\"column__header\" ng-click=\"listVM.methods.sortBy('author')\">Author</span></th>\n                        <th><span class=\"column__header\" ng-click=\"listVM.methods.sortBy('duration')\">Duration</span></th>\n                        <th>Actions</th>\n                    </tr>\n                    </thead>\n                    <tbody>\n                    <tr ng-repeat=\"item in listVM.data.courses | filter : {title: listVM.searchText} | orderBy : listVM.sortProp : listVM.sortReverse track by item.id\">\n                        <td>\n                            <input type=\"checkbox\"\n                                   ng-change=\"listVM.methods.editCheckedCourses(item.id, item)\"\n                                   ng-model=\"item.checked\"\n                                   ng-disabled=\"item.archived\">\n                        </td>\n                        <td>{{ item.id }}</td>\n                        <td>\n                            <a href=\"{{ item.link }}\"\n                               title=\"{{ item.title }}\"\n                               target=\"_blank\"\n                               ng-bind=\"item.title\"\n                               ng-class=\"{ 'archived__link': item.archived }\"></a>\n                        </td>\n                        <td ng-bind=\"item.author\"></td>\n                        <td ng-bind=\"item.duration\"></td>\n                        <td>\n                            <a ui-sref=\"edit({id: item.id})\" ng-show=\"!item.archived\">Edit</a>\n                            <a href=\"\" ng-click=\"listVM.methods.remove(item.id)\" ng-show=\"!item.archived\">Delete</a>\n                            <a href=\"\" ng-click=\"listVM.methods.unarchiveCourse(item.id, item)\" ng-show=\"item.archived\">Unarchive</a>\n                        </td>\n                    </tr>\n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </div>\n</section>"
+	module.exports = "<section>\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <h2 class=\"page__title courses__title\">Courses</h2>\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"search__wrap\">\n                    <input type=\"search\"\n                           class=\"courses__search form-control\"\n                           placeholder=\"Type phrase for search\"\n                           ng-model=\"listVM.searchText\"/>\n                    <span class=\"search__linze glyphicon glyphicon-search\"></span>\n                </div>\n            </div>\n            <div class=\"col-md-4 col-md-offset-2 text-right\">\n                <button class=\"project-btn courses__archive-btn btn btn-default\"\n                        ng-click=\"listVM.methods.archiveCourses()\"\n                        ng-disabled=\"::listVM.disableArchive\">Archive Selected</button>\n                <button class=\"project-btn btn btn-default\" ng-click=\"listVM.methods.addNew()\">Add New</button>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <table class=\"courses__table table table-responsive table-hover\">\n                    <col style=\"width: 2%\">\n                    <col style=\"width: 18%\">\n                    <col style=\"width: 45%\">\n                    <col style=\"width: 12%\">\n                    <col style=\"width: 12%\">\n                    <col style=\"width: 11%\">\n                    <thead>\n                    <tr>\n                        <th class=\"courses__table-cell\">\n                            <input type=\"checkbox\"\n                                   ng-model=\"listVM.allChecked\"\n                                   ng-change=\"listVM.methods.chooseAll()\"\n                                   ng-disabled=\"::listVM.allCheckedDisable\">\n                        </th>\n                        <th class=\"courses__table-cell courses__header-cell\">\n                            <span class=\"column__header\" ng-click=\"listVM.methods.sortBy('id')\">ID</span>\n                            <span class=\"sort__arrow\"\n                                  ng-show=\"::listVM.sortProp === 'id'\"\n                                  ng-class=\"{ 'sort__arrow--up': listVM.sortReverse }\"></span>\n                        </th>\n                        <th class=\"courses__table-cell\">\n                            <span class=\"column__header\" ng-click=\"listVM.methods.sortBy('title')\">Title</span>\n                            <span class=\"sort__arrow\"\n                                  ng-show=\"::listVM.sortProp === 'title'\"\n                                  ng-class=\"{ 'sort__arrow--up': listVM.sortReverse }\"></span>\n                        </th>\n                        <th class=\"courses__table-cell courses__header-cell\">\n                            <span class=\"column__header\" ng-click=\"listVM.methods.sortBy('author')\">Author</span>\n                            <span class=\"sort__arrow\"\n                                  ng-show=\"::listVM.sortProp === 'author'\"\n                                  ng-class=\"{ 'sort__arrow--up': listVM.sortReverse }\"></span>\n                        </th>\n                        <th class=\"courses__table-cell courses__header-cell\">\n                            <span class=\"column__header\" ng-click=\"listVM.methods.sortBy('duration')\">Duration</span>\n                            <span class=\"sort__arrow\"\n                                  ng-show=\"::listVM.sortProp === 'duration'\"\n                                  ng-class=\"{ 'sort__arrow--up': listVM.sortReverse }\"></span>\n                        </th>\n                        <th class=\"courses__table-cell courses__header-cell\">Actions</th>\n                    </tr>\n                    </thead>\n                    <tbody>\n                    <tr ng-repeat=\"item in ::listVM.data.courses | filter : {title: listVM.searchText} | orderBy : listVM.sortProp : listVM.sortReverse track by item.id\"\n                        class=\"courses__table-row\"\n                        ng-class=\"{ 'courses__table-row--archived': item.archived }\">\n                        <td class=\"courses__table-cell\">\n                            <input type=\"checkbox\"\n                                   ng-change=\"listVM.methods.editCheckedCourses(item.id, item)\"\n                                   ng-model=\"item.checked\"\n                                   ng-disabled=\"::item.archived\">\n                        </td>\n                        <td class=\"courses__table-cell\" ng-bind=\"::item.id\"></td>\n                        <td class=\"courses__table-cell\">\n                            <a href=\"{{ ::item.link }}\"\n                               title=\"{{ ::item.title }}\"\n                               target=\"_blank\"\n                               ng-bind=\"::item.title\"\n                               ng-class=\"{ 'courses__table-link--archived': item.archived }\"></a>\n                        </td>\n                        <td class=\"courses__table-cell\" ng-bind=\"::item.author\"></td>\n                        <td class=\"courses__table-cell\" ng-bind=\"::item.duration\"></td>\n                        <td class=\"courses__table-cell\">\n                            <a ui-sref=\"edit({id: item.id})\" ng-show=\"::!item.archived\" class=\"courses__action--edit\">Edit</a>\n                            <a href=\"\" ng-click=\"listVM.methods.remove(item.id)\" ng-show=\"::!item.archived\">Delete</a>\n                            <a href=\"\" ng-click=\"listVM.methods.unarchiveCourse(item.id, item)\" ng-show=\"::item.archived\">Unarchive</a>\n                        </td>\n                    </tr>\n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </div>\n</section>"
 
 /***/ },
 /* 23 */
@@ -37734,7 +37751,7 @@
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-4 col-md-offset-4\">\n                <h2>Edit Course</h2>\n                <form>\n                    <div class=\"form-group\">\n                        <label for=\"courseTitle\">Course Title *</label>\n                        <input type=\"text\"\n                               class=\"form-control\"\n                               id=\"courseTitle\"\n                               placeholder=\"Course title\"\n                               ng-model=\"editVM.data.course.title\">\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"courseLink\">Course Link *</label>\n                        <input type=\"text\"\n                               class=\"form-control\"\n                               id=\"courseLink\"\n                               placeholder=\"Course link\"\n                               ng-model=\"editVM.data.course.link\">\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"courseAuthor\">Course Author</label>\n                        <select id=\"courseAuthor\" class=\"form-control\" ng-model=\"editVM.data.course.author\">\n                            <option>Андрей</option>\n                            <option>Вася</option>\n                            <option>Федя</option>\n                            <option>Петя</option>\n                            <option>Ваня</option>\n                        </select>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"courseDuration\">Course Duration</label>\n                        <input type=\"text\"\n                               class=\"form-control\"\n                               id=\"courseDuration\"\n                               placeholder=\"Duration\"\n                               ng-model=\"editVM.data.course.duration\">\n                    </div>\n                    <div class=\"form-group\">\n                        <button class=\"btn btn-default\" ng-click=\"editVM.methods.save()\">Save</button>\n                        <button class=\"btn btn-default\" ng-click=\"editVM.methods.cancel()\">Cancel</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>"
+	module.exports = "<section>\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-4 col-md-offset-4\">\n                <h2 class=\"page__title edit__title\">Edit Course</h2>\n                <form name=\"addForm\" novalidate>\n                    <div class=\"page__form-group form-group\" ng-class=\"{'has-success': addForm.title.$valid && addForm.title.$dirty, 'has-error': addForm.title.$invalid && addForm.title.$dirty}\">\n                        <label class=\"page__label\" for=\"courseTitle\">Course Title *</label>\n                        <input type=\"text\"\n                               class=\"page__form-control form-control\"\n                               id=\"courseTitle\"\n                               name=\"title\"\n                               placeholder=\"Course title\"\n                               ng-model=\"editVM.data.course.title\"\n                               ng-model-options=\"{ updateOn: 'blur' }\"\n                               required>\n                        <span class=\"help-block\" ng-show=\"addForm.title.$error.required && addForm.title.$dirty\">Поле \"Title\" обязательно для заполнения</span>\n                    </div>\n                    <div class=\"page__form-group form-group\" ng-class=\"{'has-success': addForm.link.$valid && addForm.link.$dirty, 'has-error': addForm.link.$invalid && addForm.link.$dirty}\">\n                        <label class=\"page__label\" for=\"courseLink\">Course Link *</label>\n                        <input type=\"text\"\n                               class=\"form-control\"\n                               id=\"courseLink\"\n                               name=\"link\"\n                               pattern=\"^(https?\\:\\/\\/)[A-Za-z\\d\\-\\.\\/\\=\\?\\&]*\"\n                               ng-model-options=\"{ updateOn: 'blur' }\"\n                               ng-model=\"editVM.data.course.link\"\n                               required>\n                        <span class=\"help-block\" ng-show=\"addForm.link.$error.required && addForm.link.$dirty\">Поле \"Link\" обязательно для заполнения</span>\n                        <span class=\"help-block\" ng-show=\"addForm.link.$error.pattern && addForm.link.$dirty\">Поле «Course Link» может содержать только ссылки, начинающиеся с http:// или https://</span>\n                    </div>\n                    <div class=\"page__form-group form-group\">\n                        <label class=\"page__label\" for=\"courseAuthor\">Course Author</label>\n                        <select id=\"courseAuthor\"\n                                class=\"page__form-control edit__select form-control\"\n                                ng-model-options=\"{ updateOn: 'blur' }\"\n                                ng-model=\"editVM.data.course.author\">\n                            <option>Андрей</option>\n                            <option>Вася</option>\n                            <option>Федя</option>\n                            <option>Петя</option>\n                            <option>Ваня</option>\n                        </select>\n                    </div>\n                    <div class=\"page__form-group form-group\"\n                         ng-class=\"{'has-success': addForm.duration.$valid && addForm.duration.$dirty, 'has-error': addForm.duration.$invalid && addForm.duration.$dirty}\">\n                        <label class=\"page__label\" for=\"courseDuration\">Course Duration</label>\n                        <input type=\"text\"\n                               class=\"page__form-control form-control edit__duration\"\n                               id=\"courseDuration\"\n                               name=\"duration\"\n                               pattern=\"\\d\\d\\:[0-5]\\d\\:[0-5]\\d\"\n                               ng-model-options=\"{ updateOn: 'blur' }\"\n                               ng-model=\"editVM.data.course.duration\">\n                        <span class=\"help-block\" ng-show=\"addForm.duration.$error.pattern && addForm.duration.$dirty\">Введите продолжительность в формате HH:mm:ss</span>\n                    </div>\n                    <div class=\"form-group\">\n                        <button class=\"project-btn edit__save btn btn-default\" ng-click=\"editVM.methods.save()\">Save</button>\n                        <button class=\"project-btn btn btn-default\" ng-click=\"editVM.methods.cancel()\">Cancel</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>"
 
 /***/ },
 /* 26 */
@@ -37766,7 +37783,6 @@
 	            dataStore.getCourseById(vm.data.id)
 	                .then(function(course) {
 	                    vm.data.course = angular.copy(course);
-	                    console.log(vm.data);
 	                });
 	        }
 
@@ -37837,6 +37853,8 @@
 	            cancel: cancel
 	        };
 
+	        _checkDataStore();
+
 	        function add() {
 	            console.log(vm.data.course);
 	            dataStore.postItem(vm.data.course)
@@ -37847,6 +37865,13 @@
 
 	        function cancel() {
 	            $state.go('courses');
+	        }
+
+	        function _checkDataStore() {
+	            dataStore.getData()
+	                .then(function(data) {
+	                    console.info('Data updated!');
+	                });
 	        }
 	    }
 
@@ -37882,7 +37907,7 @@
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-4 col-md-offset-4\">\n                <h2>Add New Course</h2>\n                <form name=\"addForm\" novalidate>\n                    <div class=\"form-group\" ng-class=\"{'has-success': addForm.title.$valid && addForm.title.$dirty, 'has-error': addForm.title.$invalid && addForm.title.$dirty}\">\n                        <label for=\"courseTitle\">Course Title *</label>\n                        <input type=\"text\"\n                               class=\"form-control\"\n                               id=\"courseTitle\"\n                               name=\"title\"\n                               placeholder=\"Course title\"\n                               ng-model=\"addVM.data.course.title\"\n                               ng-model-options=\"{ updateOn: 'blur' }\"\n                               required>\n                        <span class=\"help-block\" ng-show=\"addForm.title.$error.required && addForm.title.$dirty\">* Поле \"Title\" обязательно для заполнения</span>\n                    </div>\n                    <div class=\"form-group\" ng-class=\"{'has-success': addForm.link.$valid && addForm.link.$dirty, 'has-error': addForm.link.$invalid && addForm.link.$dirty}\">\n                        <label for=\"courseLink\">Course Link *</label>\n                        <input type=\"text\"\n                               class=\"form-control\"\n                               id=\"courseLink\"\n                               name=\"link\"\n                               pattern=\"^(https?\\:\\/\\/)[A-Za-z\\-\\.]*\"\n                               placeholder=\"Course link\"\n                               ng-model=\"addVM.data.course.link\"\n                               ng-model-options=\"{ updateOn: 'blur' }\"\n                               required>\n                        <span class=\"help-block\" ng-show=\"addForm.link.$error.required && addForm.link.$dirty\">* Поле \"Link\" обязательно для заполнения</span>\n                        <span class=\"help-block\" ng-show=\"addForm.link.$error.pattern && addForm.link.$dirty\">* Поле «Course Link» может содержать только ссылки, начинающиеся с http:// или https://</span>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"courseAuthor\">Course Author</label>\n                        <select id=\"courseAuthor\" class=\"form-control\" ng-model=\"addVM.data.course.author\">\n                            <option>Андрей</option>\n                            <option>Вася</option>\n                            <option>Федя</option>\n                            <option>Петя</option>\n                            <option>Ваня</option>\n                        </select>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"courseDuration\">Course Duration</label>\n                        <input type=\"text\"\n                               class=\"form-control\"\n                               id=\"courseDuration\"\n                               placeholder=\"Duration\"\n                               ng-model=\"addVM.data.course.duration\">\n                    </div>\n                    <div class=\"form-group\">\n                        <button class=\"btn btn-default\" ng-click=\"addVM.methods.add()\" ng-disabled=\"addForm.$invalid\">Add</button>\n                        <button class=\"btn btn-default\" ng-click=\"addVM.methods.cancel()\">Cancel</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>"
+	module.exports = "<section>\n    <div class=\"container\">\n        <div class=\"row\">\n            <div class=\"col-md-4 col-md-offset-4\">\n                <h2 class=\"page__title edit__title\">Add New Course</h2>\n                <form name=\"addForm\" novalidate>\n                    <div class=\"page__form-group form-group\" ng-class=\"{'has-success': addForm.title.$valid && addForm.title.$dirty, 'has-error': addForm.title.$invalid && addForm.title.$dirty}\">\n                        <label class=\"page__label\" for=\"courseTitle\">Course Title *</label>\n                        <input type=\"text\"\n                               class=\"page__form-control form-control\"\n                               id=\"courseTitle\"\n                               name=\"title\"\n                               ng-model=\"addVM.data.course.title\"\n                               ng-model-options=\"{ updateOn: 'blur' }\"\n                               required>\n                        <span class=\"help-block\" ng-show=\"addForm.title.$error.required && addForm.title.$dirty\">Поле \"Title\" обязательно для заполнения</span>\n                    </div>\n                    <div class=\"page__form-group form-group\" ng-class=\"{'has-success': addForm.link.$valid && addForm.link.$dirty, 'has-error': addForm.link.$invalid && addForm.link.$dirty}\">\n                        <label class=\"page__label\" for=\"courseLink\">Course Link *</label>\n                        <input type=\"text\"\n                               class=\"page__form-control form-control\"\n                               id=\"courseLink\"\n                               name=\"link\"\n                               pattern=\"^(https?\\:\\/\\/)[A-Za-z\\d\\-\\.\\/\\=\\?\\&]*\"\n                               ng-model=\"addVM.data.course.link\"\n                               ng-model-options=\"{ updateOn: 'blur' }\"\n                               required>\n                        <span class=\"help-block\" ng-show=\"addForm.link.$error.required && addForm.link.$dirty\">Поле \"Link\" обязательно для заполнения</span>\n                        <span class=\"help-block\" ng-show=\"addForm.link.$error.pattern && addForm.link.$dirty\">Поле «Course Link» может содержать только ссылки, начинающиеся с http:// или https://</span>\n                    </div>\n                    <div class=\"page__form-group form-group\">\n                        <label class=\"page__label\" for=\"courseAuthor\">Course Author</label>\n                        <select id=\"courseAuthor\"\n                                class=\"page__form-control edit__select form-control\"\n                                ng-model=\"addVM.data.course.author\"\n                                ng-model-options=\"{ updateOn: 'blur' }\">\n                            <option>Андрей</option>\n                            <option>Вася</option>\n                            <option>Федя</option>\n                            <option>Петя</option>\n                            <option>Ваня</option>\n                        </select>\n                    </div>\n                    <div class=\"page__form-group form-group\"\n                         ng-class=\"{'has-success': addForm.duration.$valid && addForm.duration.$dirty, 'has-error': addForm.duration.$invalid && addForm.duration.$dirty}\">\n                        <label class=\"page__label\" for=\"courseDuration\">Course Duration</label>\n                        <input type=\"text\"\n                               class=\"page__form-control form-control edit__duration\"\n                               id=\"courseDuration\"\n                               name=\"duration\"\n                               pattern=\"(\\d\\d\\:[0-5]\\d\\:[0-5]\\d)\"\n                               ng-model=\"addVM.data.course.duration\"\n                               ng-model-options=\"{ updateOn: 'blur' }\">\n                        <span class=\"help-block\" ng-show=\"addForm.duration.$error.pattern && addForm.duration.$dirty\">Введите продолжительность в формате HH:mm:ss</span>\n                    </div>\n                    <div class=\"form-group\">\n                        <button class=\"project-btn edit__save btn btn-default\" ng-click=\"addVM.methods.add()\" ng-disabled=\"addForm.$invalid\">Add</button>\n                        <button class=\"project-btn btn btn-default\" ng-click=\"addVM.methods.cancel()\">Cancel</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</section>"
 
 /***/ }
 /******/ ]);

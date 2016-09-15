@@ -36,12 +36,10 @@ body {
 header {
   min-height: 100px;
   background-color: #3f51b5;
-  /*background-color: red;*/
-}
-.archived__link {
-  pointer-events: none;
 }
 .column__header {
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
 }
 .project-btn {
@@ -53,7 +51,9 @@ header {
   font-weight: 600;
 }
 .project-btn:hover {
-  color: #50546d;
+  background-color: #fff;
+  color: #f6511e;
+  border-color: #f6511e;
 }
 .project-btn[disabled] {
   background-color: #f5f5f5;
@@ -62,6 +62,20 @@ header {
 .page__title {
   font-size: 2em;
   font-weight: 800;
+  color: #50546d;
+}
+.page__form-group {
+  margin-bottom: 30px;
+}
+.page__label {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #8d8f9e;
+}
+.page__form-control {
+  height: 40px;
+  border-radius: 2px;
+  font-size: 14px;
   color: #50546d;
 }
 .logo__link:hover {
@@ -83,6 +97,8 @@ header {
   background-color: transparent;
 }
 .user {
+  display: inline-block;
+  height: 100px;
   padding: 30px 0;
   overflow: hidden;
 }
@@ -114,27 +130,14 @@ header {
   display: block;
   margin: 6px 0 0 0;
   line-height: 1;
+  text-align: left;
   color: #b5c0fa;
 }
 .user__logout:hover {
   color: #fff;
   text-decoration: none;
 }
-.auth__form-group {
-  margin-bottom: 30px;
-}
-.auth__label {
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #8d8f9e;
-}
-.auth__form-control {
-  height: 40px;
-  border-radius: 2px;
-  font-size: 2em;
-  color: #50546d;
-}
-.auth__auth__title {
+.auth__title {
   margin: 44px 0;
 }
 .courses__archive-btn {
@@ -147,8 +150,78 @@ header {
 .courses__search {
   width: 370px;
   height: 40px;
+  padding-right: 40px;
   color: #c0b9b9;
   font-size: 14px;
+}
+.courses__table {
+  margin-top: 20px;
+}
+.courses__table a {
+  color: #51aef0;
+}
+.courses__table-cell {
+  height: 50px;
+  vertical-align: middle !important;
+}
+.courses__header-cell {
+  font-size: 14px;
+  font-weight: 600;
+}
+.courses__action--edit {
+  margin-right: 16px;
+}
+.courses__table-row {
+  color: #50546d;
+}
+.courses__table-row--archived {
+  color: #c0b9b9 !important;
+}
+.courses__table-link--archived {
+  color: #c0b9b9 !important;
+  pointer-events: none !important;
+}
+.sort__arrow {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 10px;
+  border: 2px solid transparent;
+  border-left-color: #50546d;
+  border-top-color: #50546d;
+  transform-origin: center center;
+  transform: rotate(-135deg) translate(4px);
+}
+.sort__arrow--up {
+  transform: rotate(45deg) translate(2px, 4px);
+}
+.search__wrap {
+  position: relative;
+  display: inline-block;
+}
+.search__linze {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  color: #c0b9b9;
+  font-size: 1.4em;
+}
+.edit__title {
+  margin: 44px 0;
+}
+.edit__duration {
+  width: 100px;
+}
+.edit__save {
+  margin-right: 16px;
+}
+/* === OverRides === */
+.has-error .page__form-control {
+  border-color: #f6511e;
+}
+.has-error .help-block {
+  color: #f6511e;
 }
 
 /*# sourceMappingURL=styles.css.map*/

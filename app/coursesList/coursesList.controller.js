@@ -59,7 +59,6 @@
                     item.checked = true;
                     editCheckedCourses(item.id, item);
                 });
-                console.log(vm.checkedCourses);
             }
             if (!vm.allChecked) {
                 vm.data.courses.forEach(function(item) {
@@ -67,7 +66,6 @@
                     item.checked = false;
                     editCheckedCourses(item.id, item);
                 });
-                console.log(vm.checkedCourses);
             }
         }
 

@@ -49,7 +49,6 @@
                     store.data.authors.push(author);
                 });
 
-                console.log('TEST GetData!!!', store.data);
                 return store.data;
             }
         }
@@ -58,21 +57,29 @@
             if (!store.data) {
                 return factory.getData()
                     .then(function(data) {
-                        var course = data.courses[id];
+                        var course = {},
+                            coursesArr = data.courses;
+                        coursesArr.forEach(function(item) {
+                            if (item.id === id) {
+                                console.log('Edit item: ', item);
+                                course = item;
+                                return;
+                            }
+                        });
                         return course;
                     });
             }
             if (!!store.data) {
-                var coursesArr = store.data.courses,
-                    coursesLength = coursesArr.length;
-
-                for (var i = 0; i < coursesLength; i++) {
-                    if (coursesArr[i].id === id) {
-                        console.log('Edit item: ', coursesArr[i]);
-                        return $q.when(coursesArr[i]);
-                        break;
+                var course = {},
+                    coursesArr = store.data.courses;
+                coursesArr.forEach(function(item) {
+                    if (item.id === id) {
+                        console.log('Edit item: ', item);
+                        course = item;
+                        return;
                     }
-                }
+                });
+                return $q.when(course);
             }
         }
 
@@ -111,7 +118,7 @@
                         break;
                     }
                 }
-                console.log(store.data);
+
                 return store.data;
             }
         }

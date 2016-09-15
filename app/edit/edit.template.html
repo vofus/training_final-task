@@ -2,27 +2,39 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <h2>Edit Course</h2>
-                <form>
-                    <div class="form-group">
-                        <label for="courseTitle">Course Title *</label>
+                <h2 class="page__title edit__title">Edit Course</h2>
+                <form name="addForm" novalidate>
+                    <div class="page__form-group form-group" ng-class="{'has-success': addForm.title.$valid && addForm.title.$dirty, 'has-error': addForm.title.$invalid && addForm.title.$dirty}">
+                        <label class="page__label" for="courseTitle">Course Title *</label>
                         <input type="text"
-                               class="form-control"
+                               class="page__form-control form-control"
                                id="courseTitle"
+                               name="title"
                                placeholder="Course title"
-                               ng-model="editVM.data.course.title">
+                               ng-model="editVM.data.course.title"
+                               ng-model-options="{ updateOn: 'blur' }"
+                               required>
+                        <span class="help-block" ng-show="addForm.title.$error.required && addForm.title.$dirty">Поле "Title" обязательно для заполнения</span>
                     </div>
-                    <div class="form-group">
-                        <label for="courseLink">Course Link *</label>
+                    <div class="page__form-group form-group" ng-class="{'has-success': addForm.link.$valid && addForm.link.$dirty, 'has-error': addForm.link.$invalid && addForm.link.$dirty}">
+                        <label class="page__label" for="courseLink">Course Link *</label>
                         <input type="text"
                                class="form-control"
                                id="courseLink"
-                               placeholder="Course link"
-                               ng-model="editVM.data.course.link">
+                               name="link"
+                               pattern="^(https?\:\/\/)[A-Za-z\d\-\.\/\=\?\&]*"
+                               ng-model-options="{ updateOn: 'blur' }"
+                               ng-model="editVM.data.course.link"
+                               required>
+                        <span class="help-block" ng-show="addForm.link.$error.required && addForm.link.$dirty">Поле "Link" обязательно для заполнения</span>
+                        <span class="help-block" ng-show="addForm.link.$error.pattern && addForm.link.$dirty">Поле «Course Link» может содержать только ссылки, начинающиеся с http:// или https://</span>
                     </div>
-                    <div class="form-group">
-                        <label for="courseAuthor">Course Author</label>
-                        <select id="courseAuthor" class="form-control" ng-model="editVM.data.course.author">
+                    <div class="page__form-group form-group">
+                        <label class="page__label" for="courseAuthor">Course Author</label>
+                        <select id="courseAuthor"
+                                class="page__form-control edit__select form-control"
+                                ng-model-options="{ updateOn: 'blur' }"
+                                ng-model="editVM.data.course.author">
                             <option>Андрей</option>
                             <option>Вася</option>
                             <option>Федя</option>
@@ -30,17 +42,21 @@
                             <option>Ваня</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="courseDuration">Course Duration</label>
+                    <div class="page__form-group form-group"
+                         ng-class="{'has-success': addForm.duration.$valid && addForm.duration.$dirty, 'has-error': addForm.duration.$invalid && addForm.duration.$dirty}">
+                        <label class="page__label" for="courseDuration">Course Duration</label>
                         <input type="text"
-                               class="form-control"
+                               class="page__form-control form-control edit__duration"
                                id="courseDuration"
-                               placeholder="Duration"
+                               name="duration"
+                               pattern="\d\d\:[0-5]\d\:[0-5]\d"
+                               ng-model-options="{ updateOn: 'blur' }"
                                ng-model="editVM.data.course.duration">
+                        <span class="help-block" ng-show="addForm.duration.$error.pattern && addForm.duration.$dirty">Введите продолжительность в формате HH:mm:ss</span>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-default" ng-click="editVM.methods.save()">Save</button>
-                        <button class="btn btn-default" ng-click="editVM.methods.cancel()">Cancel</button>
+                        <button class="project-btn edit__save btn btn-default" ng-click="editVM.methods.save()">Save</button>
+                        <button class="project-btn btn btn-default" ng-click="editVM.methods.cancel()">Cancel</button>
                     </div>
                 </form>
             </div>
