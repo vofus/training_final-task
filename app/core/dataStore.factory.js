@@ -1,9 +1,9 @@
 (function() {
     'use strict';
 
-    dataStore.$inject = ['$q', 'dataService', 'COURSES_URL'];
+    dataStore.$inject = ['$q', 'utilities', 'dataService', 'COURSES_URL'];
 
-    function dataStore($q, dataService, COURSES_URL) {
+    function dataStore($q, utilities, dataService, COURSES_URL) {
         var store = {},
             factory = {
                 getData: getData,
@@ -34,20 +34,8 @@
                     authors = data.authors;
 
                 store.data = {};
-                store.data.courses = [];
-                store.data.authors = [];
-
-                Object.keys(courses).forEach(function(id) {
-                    var course = data.courses[id];
-                    course.id = id;
-                    store.data.courses.push(course);
-                });
-
-                Object.keys(authors).forEach(function(id) {
-                    var author = authors[id];
-                    author.id = id;
-                    store.data.authors.push(author);
-                });
+                store.data.courses = utilities.objectToArray(courses, 'id');
+                store.data.authors = utilities.objectToArray(authors, 'id');
 
                 return store.data;
             }
@@ -60,17 +48,16 @@
                         var course = {},
                             coursesArr = data.courses;
 
-                        course = _findCourse(coursesArr, id);
+                        course = utilities.findItemById(coursesArr, id);
                         console.log('Edit item: ', course);
 
                         return course;
                     });
             }
             if (!!store.data) {
-                var course = {},
-                    coursesArr = store.data.courses;
+                var course = {};
 
-                course = _findCourse(coursesArr, id);
+                course = utilities.findItemById(store.data.courses, id);
                 console.log('Edit item: ', course);
 
                 return $q.when(course);
@@ -103,16 +90,7 @@
 
             //выполняем обработку ответа
             function transformData() {
-                var coursesArr = store.data.courses,
-                    coursesLength = coursesArr.length;
-                for (var i = 0; i < coursesLength; i++) {
-                    if (coursesArr[i].id === id) {
-                        console.log('Remove item: ', coursesArr[i]);
-                        coursesArr.splice(i, 1);
-                        break;
-                    }
-                }
-
+                store.data.courses = utilities.removeItemById(store.data.courses, id);
                 return store.data;
             }
         }
@@ -127,41 +105,18 @@
 
             //выполняем обработку ответа
             function transformData() {
-                console.info('Data update on server', item);
-                var coursesArr = store.data.courses,
-                    coursesLength = coursesArr.length;
-                for (var i = 0; i < coursesLength; i++) {
-                    if (coursesArr[i].id === id) {
-                        store.data.courses.splice(i, 1, editedItem);
-                        break;
-                    }
-                }
+                store.data.courses = utilities.replaceItemById(store.data.courses, id, editedItem);
                 return store.data;
             }
         }
 
         function patchSameItems(items) {
-            var funcArr = [];
-            Object.keys(items).forEach(function(id) {
-                funcArr.push(factory.patchItem(id, items[id]));
-            });
+            var funcArr = utilities.createFuncArr(items, factory.patchItem);
 
             return $q.all(funcArr)
                 .then(function() {
                     return store.data;
                 });
-        }
-
-        // метод возвращает объект, найденный в массиве по id,
-        // если не находит такого, то возвращается пустой объект
-        function _findCourse(arr, id) {
-            var arrLength = arr.length;
-            for (var i = 0; i < arrLength; i++) {
-                if (arr[i].id === id) {
-                    return arr[i];
-                }
-            }
-            return {};
         }
     }
 
