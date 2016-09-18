@@ -59,26 +59,20 @@
                     .then(function(data) {
                         var course = {},
                             coursesArr = data.courses;
-                        coursesArr.forEach(function(item) {
-                            if (item.id === id) {
-                                console.log('Edit item: ', item);
-                                course = item;
-                                return;
-                            }
-                        });
+
+                        course = _findCourse(coursesArr, id);
+                        console.log('Edit item: ', course);
+
                         return course;
                     });
             }
             if (!!store.data) {
                 var course = {},
                     coursesArr = store.data.courses;
-                coursesArr.forEach(function(item) {
-                    if (item.id === id) {
-                        console.log('Edit item: ', item);
-                        course = item;
-                        return;
-                    }
-                });
+
+                course = _findCourse(coursesArr, id);
+                console.log('Edit item: ', course);
+
                 return $q.when(course);
             }
         }
@@ -156,6 +150,18 @@
                 .then(function() {
                     return store.data;
                 });
+        }
+
+        // метод возвращает объект, найденный в массиве по id,
+        // если не находит такого, то возвращается пустой объект
+        function _findCourse(arr, id) {
+            var arrLength = arr.length;
+            for (var i = 0; i < arrLength; i++) {
+                if (arr[i].id === id) {
+                    return arr[i];
+                }
+            }
+            return {};
         }
     }
 
