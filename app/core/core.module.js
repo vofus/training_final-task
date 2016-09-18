@@ -1,7 +1,8 @@
 (function() {
     'use strict';
 
-    var dataService = require('./data.service'),
+    var utilities = require('./utilities.service'),
+        dataService = require('./data.service'),
         dataStore = require('./dataStore.factory'),
         coreConfig = require('./core.config'),
         auth = require('./auth.factory');
@@ -11,6 +12,7 @@
     core
         .constant('COURSES_URL', 'https://front-end-video-courses.firebaseio.com/')
         .config(coreConfig)
+        .service('utilities', utilities)
         .service('dataService', dataService)
         .factory('dataStore', dataStore)
         .factory('auth', auth);
